@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a13e78e335d6084dbe7747d74bce82a, type: 3}
+  m_Name: VOZ-ToLaura
+  m_EditorClassIdentifier: 
+  NombreVoz: 0
+  VozPitch: 0
+  EquipoID: 0
+  au_DetecEnemigo: {fileID: 8300000, guid: 0a7eab622f8bc014a9d9965c35b5fcca, type: 3}
+  au_ZonaAsegurada: {fileID: 8300000, guid: 3eec0e3cab1d25f4e818f4758e2faefa, type: 3}
+  au_AbandonenZona: {fileID: 8300000, guid: d752b4da71ee88845958c89c450a883c, type: 3}
+  au_ExtremenPrecaucion: {fileID: 0}
+  au_NoHayEnemigosDetectados: {fileID: 8300000, guid: 39f890375014b094396a914b840c05af,
+    type: 3}
+  au_EnemigoEliminado: {fileID: 0}
+  au_EnemigoPerdido: {fileID: 0}
+  au_Integridad: {fileID: 8300000, guid: 38c8a32fc0f63464f93018065b91efb4, type: 3}
+  au_DetecIncendio: {fileID: 8300000, guid: b6309e12a6efc614fb511edc1e5c4a53, type: 3}
+  au_ReparacionesIniciadas: {fileID: 8300000, guid: e2a1bf03bb628ae4f9007536d285a010,
+    type: 3}
+  au_ReparacionesFinalizadas: {fileID: 8300000, guid: ff89b53964b900f4583227cc8635caeb,
+    type: 3}
+  au_cien: {fileID: 8300000, guid: 5ac5b8dbbce7cfb4b94e2971e3f34fb2, type: 3}
+  au_cincuenta: {fileID: 8300000, guid: 305765c6fc9a72044a22be2e24c58ef2, type: 3}
+  au_veinty: {fileID: 8300000, guid: 789f494bca1154e419aacd7170605802, type: 3}
+  au_diez: {fileID: 8300000, guid: bfc665d3c99024948851cab1445993f5, type: 3}
+  au_5: {fileID: 8300000, guid: 6c12032cb3180b346a3582657fb6f433, type: 3}
+  au_porCien: {fileID: 8300000, guid: ca47cdeb61a3645458b34e5cf9b61837, type: 3}
+  au_NivelRiesgo: {fileID: 8300000, guid: 24da4a15da41fa546a5616de7ba4e010, type: 3}
+  au_Bajo: {fileID: 8300000, guid: 4d70fb0a7a8713740b58e70219883c21, type: 3}
+  au_Medio: {fileID: 8300000, guid: 3a7af6ccb4e53be4a9007ea368329476, type: 3}
+  au_Alto: {fileID: 8300000, guid: 5432a1e0704e39b4db96a876b5eb4bf1, type: 3}
+  au_Elevado: {fileID: 8300000, guid: 165df989ed509f740b1df1c85a15ee73, type: 3}
+  au_Critico: {fileID: 8300000, guid: fae49ddbfdf9de84d90b726c847f3192, type: 3}

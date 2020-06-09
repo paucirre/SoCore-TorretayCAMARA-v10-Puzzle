@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c999d5011371447b00fd2d6aee633e, type: 3}
+  m_Name: BDParticulas
+  m_EditorClassIdentifier: 
+  IntensidadDeParticulasAmb: 0
+  "Tama\xF1oParticulasImpacto": 0
+  ColorHumo: {r: 0, g: 0, b: 0, a: 0}
+  IMP_Generico: {fileID: 0}
+  IMP_Agua: {fileID: 0}
+  IMP_Carne: {fileID: 0}
+  IMP_Bicho: {fileID: 0}
+  IMP_Cristal: {fileID: 0}
+  IMP_Metal: {fileID: 0}
+  IMP_Chapa: {fileID: 0}
+  IMP_Madera: {fileID: 0}
+  IMP_Bion: {fileID: 0}
+  IMP_Mimet: {fileID: 0}
+  IMP_BidonComb: {fileID: 0}
+  IMP_BidonAgua: {fileID: 0}
+  IMP_TuboGas: {fileID: 0}
+  IMP_GasVeneno: {fileID: 0}
+  Explo_Muni_Pistola: {fileID: 0}
+  Explo_Muni_Rifles: {fileID: 0}
+  Explo_Muni_Explosiva: {fileID: 0}
+  Explo_Muni_Electrica: {fileID: 0}
+  Explo_Generador: {fileID: 0}
+  Explo_Pieza: {fileID: 0}
+  Explo_Motor: {fileID: 0}
+  Exp_Gra_Frag: {fileID: 0}
+  Exp_Gra_Case: {fileID: 0}
+  Exp_Gra_Humo: {fileID: 0}
+  Exp_Gra_IEM: {fileID: 0}
+  Exp_Gra_Gas: {fileID: 0}
+  Exp_Molotov: {fileID: 0}
+  Exp_Gra_Puas: {fileID: 0}
+  Exp_Misil: {fileID: 0}
+  Exp_Scud: {fileID: 0}
+  ExplosionPeque: {fileID: 0}
+  ExplosionMediana: {fileID: 0}
+  ExplosionGrande: {fileID: 0}
+  Chorro: {fileID: 0}
+  Exp_Artilleria: {fileID: 0}
+  Exp_ArtilleriaB: {fileID: 0}
+  Exp_Nuclear: {fileID: 0}
+  Exp_Bomb_Gran: {fileID: 0}
+  Exp_Bomb_Med: {fileID: 0}
+  Exp_Bomb_Peq: {fileID: 0}
+  Exp_Bomb_Iem: {fileID: 0}
+  Exp_Bomb_Gas: {fileID: 0}
+  Amb_Nieve: {fileID: 0}
+  Amb_Lluvia: {fileID: 0}
+  Amb_LuviaAcida: {fileID: 0}
+  Amb_Tierra: {fileID: 0}
+  Amb_Polvo: {fileID: 0}
+  Amb_PolvoEspacial: {fileID: 0}
+  Lluvia: {fileID: 0}
+  NubesAmb: {fileID: 0}
+  Niebla_Nubes: {fileID: 0}
+  Rayo: {fileID: 0}
+  Humo_BL_Peq: {fileID: 0}
+  Humo_BL_Med: {fileID: 0}
+  Humo_BL_Gran: {fileID: 0}
+  Humo_Negro_Grande: {fileID: 0}

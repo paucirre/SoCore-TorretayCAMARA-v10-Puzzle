@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16631d5cbc90a144b9459e30ca321aaa, type: 3}
+  m_Name: DB_Audio_Sensor_
+  m_EditorClassIdentifier: 
+  Detectado_Aliado: {fileID: 8300000, guid: f9c1f56c53b4ead4ba2b6559f6b211b1, type: 3}
+  Perdido_Aliado: {fileID: 8300000, guid: 58a6c6a8adb5c614083520df3b8b0fd4, type: 3}
+  Detectado_Enemigo: {fileID: 8300000, guid: 655c4878bbbbc5342974ce0c6be54fc5, type: 3}
+  Perdido_Enemigo: {fileID: 8300000, guid: 62181ec7e82fa6e4aa7fcd0dd2785185, type: 3}

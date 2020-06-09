@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{35B44BBD-F5F7-E37D-A327-B074339C4517}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/CORE/Scriptables/Scripts/SensorTorreSuave.cs">
+    <Files>
+      <File FileName="Assets/CORE/Scriptables/Scripts/SensorTorreSuave.cs" Line="82" Column="8" />
+      <File FileName="../SoCore-TorretayCAMARA-v09-FUNCIONAL-Voz/Assets/CORE/Scriptables/Scripts/ARMA.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SoCore-TorretayCAMARA-v10-Puzzle" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="CORE" expanded="True">
+                <Node name="Scriptables" expanded="True">
+                  <Node name="Scripts" expanded="True">
+                    <Node name="SensorTorreSuave.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8314fb19-763e-4c84-bd69-d6b5435ab285" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

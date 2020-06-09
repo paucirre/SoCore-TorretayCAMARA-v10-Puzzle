@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 08cf780351755f24c82a7e9b0b3f4466
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - anim: {instanceID: 0}
+  - effect: {fileID: 8983886014314783842, guid: b0a092a0cbcd19841804b4c46f86085d,
+      type: 3}
+  - AudioFuente: {instanceID: 0}
+  - AudioFuente2: {instanceID: 0}
+  - Morir: {instanceID: 0}
+  - Chapoteo: {instanceID: 0}
+  - Colorcubo: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

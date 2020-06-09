@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: a6f3aae2e06b3474ea18f747d84985e4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Bala_Noletal: {fileID: 8438208585273716701, guid: 220fbfd85449b4447b44211ca68eaade,
+      type: 3}
+  - Bala_Estandar: {fileID: 1057061823695934954, guid: 6ed12c260692e6548bbc882fceb4e25d,
+      type: 3}
+  - Bala_Incendiaria: {fileID: 3520049382623955418, guid: b5e0ac44105f8bd4ebeb74bed353f038,
+      type: 3}
+  - Bala_Piercing: {fileID: 4508648389337029018, guid: 19cdc4a4d9a355c44aa1ea17b51fbb9f,
+      type: 3}
+  - Sonido_disparo: {fileID: 8300000, guid: 0ea872f91b8841a4c9bcefee63000969, type: 3}
+  - Sonido_descargada: {fileID: 8300000, guid: 2a0cd3292a06c0046ae06d035ded44d6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

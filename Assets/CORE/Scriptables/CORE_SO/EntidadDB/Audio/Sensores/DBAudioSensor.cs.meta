@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 16631d5cbc90a144b9459e30ca321aaa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Detectado_Aliado: {fileID: 8300000, guid: 655c4878bbbbc5342974ce0c6be54fc5, type: 3}
+  - Perdido_Aliado: {fileID: 8300000, guid: 58a6c6a8adb5c614083520df3b8b0fd4, type: 3}
+  - Detectado_Enemigo: {fileID: 8300000, guid: 01fc5f5eb91d5294ca6b722b87dbd2d7, type: 3}
+  - Perdido_Enemigo: {fileID: 8300000, guid: f9c1f56c53b4ead4ba2b6559f6b211b1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

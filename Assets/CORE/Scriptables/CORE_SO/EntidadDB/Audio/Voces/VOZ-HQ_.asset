@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 475bf4cb7e174e24cb5cc3778cfa42f5, type: 3}
+  m_Name: VOZ-HQ_
+  m_EditorClassIdentifier: 
+  NombreVoz: 0
+  VozPitch: 0
+  EquipoID: 0
+  Detec_BaseEnemiga: {fileID: 0}
+  Detec_SuperAma: {fileID: 0}
+  Detec_UnidadesEnemig: {fileID: 0}
+  Detec_RefuerzosEnemig: {fileID: 0}
+  Detec_Supervivientes: {fileID: 0}
+  Detec_RestosAccudebte: {fileID: 0}
+  Detec_AtaqueBase: {fileID: 0}
+  Detec_AtaqueCosechador: {fileID: 0}
+  Detec_AtaqueConstructor: {fileID: 0}
+  Detec_AtaqueCiviles: {fileID: 0}
+  Detec_TormentaCercana: {fileID: 0}
+  Detec_CapsulasPods: {fileID: 0}
+  Detec_OleadaLLegando: {fileID: 0}
+  EnergiaBaja: {fileID: 0}
+  RecursosInsuf: {fileID: 0}
+  ConstruccionFinaliza: {fileID: 0}
+  EnConstruccion: {fileID: 0}
+  NuevasOpcionesConstrucc: {fileID: 0}
+  doce: {fileID: 0}
+  once: {fileID: 0}
+  diez: {fileID: 0}
+  nueve: {fileID: 0}
+  ocho: {fileID: 0}
+  siete: {fileID: 0}
+  seis: {fileID: 0}
+  cinco: {fileID: 0}
+  cuatro: {fileID: 0}
+  tres: {fileID: 0}
+  dos: {fileID: 0}
+  uno: {fileID: 0}
+  cero: {fileID: 0}
+  Aux_Minutos: {fileID: 0}
+  Aux_Enpunto: {fileID: 0}
+  Aux_Ymedia: {fileID: 0}
+  Aux_Pasadas: {fileID: 0}
+  Aux_Quedan_: {fileID: 0}
+  NombrEnemigos: {fileID: 0}
+  NombrBichos: {fileID: 0}
+  NombrSupervivientes: {fileID: 0}
+  NombrCiviles: {fileID: 0}
+  NombrENEMIGOS: {fileID: 0}

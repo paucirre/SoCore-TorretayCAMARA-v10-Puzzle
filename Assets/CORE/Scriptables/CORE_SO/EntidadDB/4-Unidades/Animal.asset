@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4e4e23fd21cd947a86d2f188db9bad, type: 3}
+  m_Name: Animal
+  m_EditorClassIdentifier: 
+  ID_Unica: 0
+  Nombre: 
+  Descripcion: 
+  Pos: {x: 0, y: 0, z: 0}
+  Rot: {x: 0, y: 0, z: 0, w: 0}
+  VidaIntegridad: 0
+  EnergiaCombus: 0
+  NivelGeneral: 0
+  Obj_Bien: {fileID: 0}
+  alimentacion: 1
+  Domesticable: 0
+  ResistenciaDomesticacion: 0
+  Montable: 0
+  ControlablePlayer: 0
+  Huidizo: 0
+  NivelAgresividad: 0

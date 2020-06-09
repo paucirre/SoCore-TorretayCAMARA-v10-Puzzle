@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101683d95b40e0a469ef9d25fb85292c, type: 3}
+  m_Name: Proyectil
+  m_EditorClassIdentifier: 
+  Nombre: 
+  Descripcion: 
+  Game_Object: {fileID: 0}
+  Cameo: {fileID: 0}
+  Foto: {fileID: 0}
+  velocidad: 0
+  TiempoVida: 0
+  sangrante: 0
+  Damage_Energia: 0
+  Damage_Salud: 0
+  Damage_Vehiculos: 0
+  Damage_Estructuras: 0
+  Damage_Animal: 0
+  Hole_TCristal: []
+  Hole_Madera: {fileID: 0}
+  Hole_Chapa: {fileID: 0}
+  Hole_Metal: {fileID: 0}

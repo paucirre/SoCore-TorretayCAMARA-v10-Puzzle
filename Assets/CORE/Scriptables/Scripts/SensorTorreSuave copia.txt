@@ -1,0 +1,613 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq; //necesario para listas??
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
+//using System;
+
+public class SensorTorreSuave : MonoBehaviour
+{
+    #region -----------------VARIABLES----------------
+    public int AlcanceSensor;
+    private Vector3 SensorXYZ;
+    public float PerimetroSeguridad; //si algo se acerca mas lo toma como objetivo automaticamente
+
+    public int Alerta = 0;
+
+
+
+    public AudioSource Altavoz2;
+    public VozNave VozSensor;
+    public bool VozSensorOn;
+
+    [Header("[[OBJETIVO]]")]
+    public Transform ObjetivoActual;
+    public GameObject UltimoObjetivo;
+    public float DistanciaObjetivo;
+
+    [Header("[[HUD]]")]
+    public Text Municiontext;
+    public Text IndicadorEnemigos;
+    public Text DistanciaObjText;
+    public Text ObjetivoActualNombre;
+
+    public DBAudioSensor BD_AUDIO;        // Declara el SO
+    private AudioSource AltavozSensor;    //Audiosource que buscara en el padre
+
+    [Header("[[Torreta]]")]
+    public Transform Torreta; //para giro
+    public Transform Can;     //para elevacion
+    public ARMA ArmaPrincipal;
+
+    [Header("Velocidades")]
+    public int VelocidadGiro;
+    public float VelocidadEleva;
+    public float VelocidadElevaLenta;
+    public float VelocidadElevaRapida;
+    #endregion
+
+    [Header("LISTAS DE OBJETIVOS DETECTADOS")]
+    public List<GameObject> ListaEnemigos = new List<GameObject>();
+    public List<GameObject> ListaAmigos = new List<GameObject>();
+    public List<AudioClip> NarracionVoces = new List<AudioClip>();
+
+    private void Start()
+    {
+
+        AltavozSensor = this.GetComponentInParent<AudioSource>();
+        Municiontext.text = ArmaPrincipal.MunicionActual.ToString();//_____________________________________________________________________________________________________________________________________________
+                                                                    // MuniArmaPrincipal = this.GetComponentInChildren<ARMA>();
+                                                                    //----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> VidaArma.... = this.GetComponentInChildren<ARMA>().MunicionActual.ToString();
+    }    //Busca en el padre el componente audiosource en start  
+    void OnTriggerEnter(Collider other)
+    {
+        switch (other.gameObject.tag)                                           // comparamos el Objeto que ha entrado en sensor
+        {
+            case "Enemigo":                                                     //en caso de que el tag sea enemigo
+                //ListaEnemigos.Add(other.gameObject.GetComponent<Transform>());  //añade el transform del objeto a la lista (para luego poder seguirlo)
+                ListaEnemigos.Add(other.gameObject);
+                //AltavozSensor.clip = BD_AUDIO.Detectado_Enemigo;                //Pone el clip a sonar en este caso
+                AltavozSensor.PlayOneShot(BD_AUDIO.Detectado_Enemigo);
+                Alerta++;//Lo reproduce
+                SonarVoz(VozSensor.au_DetecEnemigo);
+
+                //  Altavoz2.PlayOneShot(VozSensor.au_DetecEnemigo); 
+
+                //___________________Que apunte al primero hasta que muera_____con: if(objetivo != null)________pero luego como apunta al siguiente?
+                //----------------->> ObjetivoActual = other.gameObject.GetComponent<Transform>();    //Lo pones como objetivo actual solo el transform del gameobject (para empezar a mirarle)
+                //VAMOS A ACTIVAR SU ICONO EN EL MINIMAPA MIENTRAS ESTE EN LA LISTA.
+                //other.GetComponent<Entidad>(CameoPersonal);
+
+                break;
+
+            case "Aliado":                                                      //en caso de que el tag sea aliado hace lo mismo pero acediendo a lista y sonido de amigos.
+                                                                                //ListaAmigos.Add(other.gameObject.GetComponent<Transform>());    
+                ListaAmigos.Add(other.gameObject);
+                AltavozSensor.clip = BD_AUDIO.Detectado_Aliado;
+                AltavozSensor.Play();
+
+                break;
+        }
+
+        Debug.Log("Voy a llamar a objetivoUltimoLista");
+        ObjetivoUltimoLista();
+    }
+    void OnTriggerExit(Collider other)
+    {
+        switch (other.gameObject.tag)   //Igual que el anterior solo que resta de la lista y reproduce otros sonidos 
+                                        //deberia no usar el tag,podria detectar en que lista estaba y restarlo sin decirle la lista de la que pertenece?      
+        {
+            case "Enemigo":
+                // ListaEnemigos.Remove(other.gameObject.GetComponent<Transform>());
+                ListaEnemigos.Remove(other.gameObject);
+                // AltavozSensor.clip = BD_AUDIO.Perdido_Enemigo;
+                AltavozSensor.PlayOneShot(BD_AUDIO.Perdido_Enemigo);
+                NarracionVoces.Add(BD_AUDIO.Perdido_Enemigo);
+                Alerta--;
+
+                if (ListaEnemigos.Count == 0 && !ObjetivoActual)
+                {
+                    SonarVoz(VozSensor.au_ZonaAsegurada);
+                    Debug.Log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLANNNNNNNNNNNNNNNNNNZANDOOOOOOOOOOOOOOOO CORRUUUUUUUUUUU");
+                    //StartCoroutine("DecirEncadenado");
+                    // DecirEncadenado(VozSensor.au_ZonaAsegurada);
+                    // DecirEncadenado(VozSensor.au_NoHayEnemigosDetectados);
+
+
+                    // StartCoroutine("EsperaAltavozFinalice");
+                    //Debug.Log("                 VOZ 22222222222222222222222222222222222222222222222222222222222222222222222222222");
+                    //SonarVoz(VozSensor.au_NoHayEnemigosDetectados);
+                }
+
+
+
+                break;
+            case "Aliado":
+                //ListaAmigos.Remove(other.gameObject.GetComponent<Transform>()); 
+                ListaEnemigos.Remove(other.gameObject);
+                AltavozSensor.clip = BD_AUDIO.Perdido_Aliado;
+                NarracionVoces.Add(BD_AUDIO.Perdido_Aliado);
+                AltavozSensor.Play();
+                break;
+
+            default:
+                //Debug.Log("----------------------------------------SENSOR:  Objeto.tag No identificado detectado por sensor /n se llama" + other.name);  //si no es ninguno de estos tags no sabe que es
+
+                break;
+        }
+    }
+    public void Update()
+    {
+
+        Municiontext.text = ArmaPrincipal.MunicionActual.ToString();
+        SensorXYZ = new Vector3(AlcanceSensor, AlcanceSensor, AlcanceSensor);      //crea variable vector 3 que tendra en sus 3 variables el tamaño declarado como alcance
+        this.transform.localScale = SensorXYZ; //actualiza el alcance/tamaño sensor
+        if (ListaEnemigos.Count <= 0) { Debug.Log("----------------------------------------SENSOR/UPDATE dice:        ---------0----------        Enemigos"); ObjetivoActual = null; }
+        if (ObjetivoActual = null) { Debug.Log("UPDATE dice:                                      No Hay Objetivoo"); }//hacemos que el sensor cambie de tamaño(esto en el futuro se hara mediante una funcion)
+        RecorrerListaObjetos();
+       
+
+        ObjetivoMasCercano();
+
+        if (Input.GetKeyDown("c"))
+        {
+
+            CambiarObjetivo();
+
+        }
+
+        
+
+        ApuntarAutomatico();
+        LeerDatosObjetivo();
+        if (ObjetivoActual = null)
+        {
+            if (ObjetivoActual.GetComponent<Salud>().Vida <= 0)
+            {
+                if (ListaEnemigos.Count <= 0) { }
+                else
+                {
+                    ListaEnemigos.Remove(ObjetivoActual.gameObject); Alerta--;
+                }
+
+            }
+        }
+
+        Debug.Log("CAMBIAR OBJETIVO. Ahora el indice enemigo es: " + ListaEnemigos.FindIndex(d => d == UltimoObjetivo) + ". Nombre objetivo: " + UltimoObjetivo.name);
+
+    }
+
+
+  #region MÉTODOS PRINCIPALES------------------------------
+
+    void SonarVoz(AudioClip _VozRecibida)
+    {if(VozSensor){
+        if (VozSensorOn)
+        {
+            if (Altavoz2.isPlaying)
+            {
+
+                //StartCoroutine("EsperaAltavozFinalice");                
+                //IEnumerator EsperaAltavozFinalice()
+                //{
+                //    yield return new WaitForSeconds(2);
+                //    //if (!Altavoz2.isPlaying) { StartCoroutine("EsperaAltavozFinalice"); }
+                //    //else
+                //    //{
+                //    //    Altavoz2.PlayOneShot(_VozRecibida);
+                //    //}
+
+                //}
+//                Debug.Log("                          VOZ   VOZ   VOZ        esperando para hablar");
+            }
+
+
+            else { Altavoz2.PlayOneShot(_VozRecibida); }
+        }
+
+        }
+    }
+
+
+    void CambiarObjetivo()
+    {
+
+        int objetivoIndex = ListaEnemigos.FindIndex(d => d == UltimoObjetivo);
+
+
+        Debug.Log("CAMBIAR OBJETIVO. Ahora el indice enemigo es: " + objetivoIndex + ". Nombre objetivo: " + UltimoObjetivo.name);
+
+        objetivoIndex--;
+
+        UltimoObjetivo = ListaEnemigos[objetivoIndex];
+
+        Debug.Log("indice= " + objetivoIndex +   ".   EL OBJETIVO ACTUAL ES= " + UltimoObjetivo.name);
+
+        ObjetivoActual = UltimoObjetivo.transform;
+
+    }
+
+    void Decir(AudioClip _PalabraRecibida)
+    {
+
+        NarracionVoces.Add(_PalabraRecibida);
+
+
+        while (NarracionVoces.Count > 0 && !Altavoz2.isPlaying) { 
+            
+                Altavoz2.PlayOneShot(NarracionVoces.First());
+                NarracionVoces.Remove(NarracionVoces.First());
+               
+            
+
+        }
+
+
+    }
+
+
+
+    void ApuntarAutomatico()
+    {
+
+
+
+
+
+        if (ObjetivoActual && ObjetivoActual.GetComponent<Salud>().Vida > 0)// si hay objetivo, el puntero se pone encima. sino se pone a 000 el puntero 
+        {
+            //LeerDatosObjetivo();
+            CalcularDistanciaObjetivo();
+            VelocidadEleva = VelocidadElevaRapida;
+//            Debug.Log("                                   APUNTADO AUTOMATICO dice:    apuntando...          ");
+            //___________________________________________________________________________________________________
+
+            Vector3 PunteroTorreta = new Vector3( //Crea vector que guiara a la torreta (siendo su eje y = y de la propia torreta para que no se eleve)
+                ObjetivoActual.position.x,
+                Torreta.position.y,
+                ObjetivoActual.position.z);
+
+            Quaternion targetRotaTorre = Quaternion.LookRotation(PunteroTorreta - Torreta.transform.position);         //gira torreta hacia el vector objetivo
+            Torreta.transform.rotation = Quaternion.Slerp(Torreta.transform.rotation, targetRotaTorre, VelocidadGiro * Time.deltaTime);
+
+
+            Vector3 PunteroCan = new Vector3(//crea vector que guiara el cañon
+                ObjetivoActual.position.x,
+                ObjetivoActual.position.y,
+                ObjetivoActual.position.z);
+
+            Quaternion targetRotaCan = Quaternion.LookRotation(PunteroCan - Can.transform.position);                  //gira y eleva Cañon hacia el vector objetivo
+            Can.transform.rotation = Quaternion.Slerp(Can.transform.rotation, targetRotaCan, VelocidadEleva * Time.deltaTime);
+
+
+        }/*
+        else if (ObjetivoActual=null)
+        {
+            Debug.Log("nohay objetivossssssssssssssssssssssssssssssssssssssssssss");            //if (Alerta <= 0 ){ Invoke("DescansarCan",0);Debug.Log("descansando cañon..."); }
+            // VelocidadEleva = VelocidadElevaLenta;
+           Can.transform.rotation = new Quaternion(0, 0, 0, 0);
+            Quaternion relax = new Quaternion(0,0,0,0);
+            Can.transform.rotation = Quaternion.Slerp (Can.transform.rotation,relax,  VelocidadElevaLenta * Time.deltaTime);
+           
+           Torreta.transform.rotation = new Quaternion(0, 0, 0, 0);
+            //Torreta.transform.rotation = Quaternion.Slerp(Can.transform.rotation, Can.transform.rotation, VelocidadElevaLenta * Time.deltaTime);
+            Torreta.transform.rotation = Quaternion.Slerp(Can.transform.rotation, relax, VelocidadElevaLenta * Time.deltaTime);
+        }*/
+        if (ListaEnemigos.Count <= 0)
+        {
+            Debug.Log("                                  APUNTADO AUTOMATICO dice:      No hay objetivos");            //if (Alerta <= 0 ){ Invoke("DescansarCan",0);Debug.Log("descansando cañon..."); }
+                                                                                                                       // VelocidadEleva = VelocidadElevaLenta;
+            Can.transform.rotation = new Quaternion(0, 0, 0, 0);
+            Quaternion relax = new Quaternion(0, 0, 0, 0);
+            Can.transform.rotation = Quaternion.Slerp(Can.transform.rotation, relax, VelocidadElevaLenta * Time.deltaTime);
+
+            Torreta.transform.rotation = new Quaternion(0, 0, 0, 0);
+            //Torreta.transform.rotation = Quaternion.Slerp(Can.transform.rotation, Can.transform.rotation, VelocidadElevaLenta * Time.deltaTime);
+            Torreta.transform.rotation = Quaternion.Slerp(Can.transform.rotation, relax, VelocidadElevaLenta * Time.deltaTime);
+        }
+    }               //----LA FUNCION CLAVE------------
+    void LeerDatosObjetivo()
+    {
+        if (ObjetivoActual)
+        {
+
+            IndicadorEnemigos.text = ListaEnemigos.Count.ToString();
+
+            ObjetivoActualNombre.text = ObjetivoActual.name.ToString();
+            DistanciaObjText.text = DistanciaObjetivo.ToString();
+
+
+
+        }
+        else { ObjetivoActualNombre.text = "------"; }
+    }           //Lee:     Datos-Objetivo
+    void ObjetivoUltimoLista()
+    {
+        if (ARMA.enemigoOculto == true){
+
+        } else  if (ListaEnemigos.Count > 0)
+        {
+            UltimoObjetivo = ListaEnemigos.Last<GameObject>(); //<<<<<<<<<<<<---------------------lo he conseguido pero he tendio que crear otra variable ultimo objetivo de tipo gameobject
+            ObjetivoActual = UltimoObjetivo.transform;
+        }
+
+    }             //Busca:   Datos-Objetivo
+    void RecorrerListaObjetos()
+    {
+//        Debug.Log("_______________________________________CHEKER de nulos ON_____________________________________________");
+        if (ListaEnemigos.Count > 0)
+        {
+            foreach (GameObject Enemigo in ListaEnemigos)
+            {
+                if (Enemigo) { //Debug.Log("_______________________________________CHEKER: Obje Existe en Posicion__________________")
+                    }
+                else { ListaEnemigos.Remove(Enemigo); //Debug.Log("_________________________-----¡BORRADO Null!----__________________");
+                }
+            }
+            ObjetivoUltimoLista();
+        }
+        else
+        {
+  //          Debug.Log("______________________________________CHEKER  No hay enemigos que recorrer");
+        }
+
+    }            //recorre: ____Eliminador Nulos_____ //comprobador de Distancia mas cercano?
+
+
+    void ObjetivoMasCercano()
+    {
+        if (ListaEnemigos.Count > 0)
+        {
+            foreach (GameObject Enemigo in ListaEnemigos)
+            {
+                if (Enemigo)
+                {
+                    // //==============================================================================================================================================
+
+
+                    if (DistanciaObjetivo < PerimetroSeguridad && DistanciaObjetivo > 0)
+                    {
+                        ObjetivoActual = Enemigo.transform;
+                        SonarVoz(VozSensor.au_NivelRiesgo);
+                    }
+
+                    
+
+
+                    ////==============================================================================================================================================
+
+                }
+                else
+                {
+                    ListaEnemigos.Remove(Enemigo);
+
+
+                }
+
+
+
+                // //==============================================================================================================================================
+
+
+
+                // if (DistanciaObjetivo < PerimetroSeguridad && DistanciaObjetivo > 0) 
+                // {
+                //     ObjetivoActual = Enemigo.transform; 
+                //     Debug.Log("                                    SENSOR:   Este Se esta acercando mucho" + Enemigo.name); 
+                // }
+
+                // else if( DistanciaObjetivo > PerimetroSeguridad )
+                // { 
+                //     ObjetivoUltimoLista(); 
+                // }
+
+
+                ////==============================================================================================================================================
+
+
+            }
+            
+        }
+        else
+        {
+            Debug.Log("______________________________________CHEKER  No hay enemigos que recorrer");
+        }
+
+    }            //recorre: ____Eliminador Nulos_____ // Objetivo El que se encuentre pasado el perimetro de seguridad //Mejorar un poco esto <-
+
+
+    void CalcularDistanciaObjetivo()
+    {
+        if (ObjetivoActual != null)
+        { //si hay objetivo
+            //Debug.Log("calculando distancia del objetivo");
+            DistanciaObjetivo = Vector3.Distance(Torreta.transform.position, ObjetivoActual.transform.position);
+            // DistanciaObjText = DistanciaObjetivo.ToString; 
+            //  Debug.Log("el objetivo esta a... " + DistanciaObjetivo + "metros");
+        }
+
+        //pasar la distancia del objetivo actual a pantalla de interfaz (util para misiones y para juegos de aviones)
+        else { DistanciaObjetivo = 0.0f; }
+    }
+    IEnumerator DecirEncadenado(AudioClip _VozRecibi)
+    {
+        Debug.Log("CORRRUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTIIIIIIIINAAAA iniciada");
+
+
+        if (VozSensorOn)
+        {
+            if (!Altavoz2.isPlaying)
+            {
+                Altavoz2.PlayOneShot(_VozRecibi);
+            }
+            else
+            {
+                yield return new WaitForSeconds(3);
+                Altavoz2.PlayOneShot(_VozRecibi);
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    void VozDecir_IntegridadPropia()
+    {
+        float VidaSensor = this.GetComponent<Salud>().Vida;
+        switch (VidaSensor)
+        {
+            case 100: SonarVoz(VozSensor.au_cien); break;
+            case 50: SonarVoz(VozSensor.au_cincuenta); break;
+            case 25: SonarVoz(VozSensor.au_veinty); break;
+            case 5: SonarVoz(VozSensor.au_Critico); break;
+            case 3: SonarVoz(VozSensor.au_AbandonenZona); break;
+
+            default: break;
+
+        }
+
+
+
+
+        #region _____FUNCIONES SIN USO___________________
+        void DescansarCan()
+        {
+
+            VelocidadEleva = 0.5f;
+            Vector3 PunteroTorreta = new Vector3(0, Torreta.position.y, 0);
+            Vector3 PunteroCan = new Vector3(0, 0, 0);
+            Quaternion Relaja = new Quaternion(0, 0, 0, 0);
+
+            Quaternion targetRotaCan = Quaternion.LookRotation(PunteroCan);                  //gira y eleva Cañon hacia el vector objetivo
+            Can.transform.rotation = Quaternion.Slerp(Can.transform.rotation, Relaja, VelocidadElevaLenta * Time.deltaTime);
+            Quaternion targetRotaTorre = Quaternion.LookRotation(PunteroTorreta - Torreta.transform.position);         //gira torreta hacia el vector objetivo
+            Torreta.transform.rotation = Quaternion.Slerp(Torreta.transform.rotation, Relaja, VelocidadElevaLenta * Time.deltaTime);
+        }
+        /*void DescansarCanMeca()
+            {
+                Vector3 PunteroTorreta = new Vector3(0, Torreta.position.y, 0);
+                Vector3 PunteroCan = new Vector3(0, 0, 0);
+                Quaternion targetRotaCan = Quaternion.LookRotation(PunteroCan );                  //gira y eleva Cañon hacia el vector objetivo
+                Can.transform.rotation = Quaternion.Slerp(Can.transform.rotation, targetRotaCan, VelocidadEleva * Time.deltaTime);
+                Quaternion targetRotaTorre = Quaternion.LookRotation(PunteroTorreta);         //gira torreta hacia el vector objetivo
+                Torreta.transform.rotation = Quaternion.Slerp(Torreta.transform.rotation, targetRotaTorre, VelocidadGiro * Time.deltaTime);
+            */
+
+
+        void RecorrerListaIndice()
+        {
+            for (int contador = 0; contador < ListaEnemigos.Count; contador++)
+            {
+                Debug.Log("Hay" + ListaEnemigos[contador] + "Enemigos detectados"); //pasar esta variable a un txt de la interfaz/miniradar
+
+                if (contador == 0 && ListaEnemigos.Count > 0) { Debug.Log("Eres el Primer y unico Enemigo en la zona!"); }
+            }
+
+
+
+        }    //Sube y baja puestos de la lista (para seleccionar diferentes objetivos)
+        void ObjetivoPrimeroLista()
+        {
+            UltimoObjetivo = ListaEnemigos.First<GameObject>();
+            ObjetivoActual = UltimoObjetivo.transform;
+
+            foreach (GameObject Enemigo in ListaEnemigos)
+            {
+                Debug.Log(ListaEnemigos.IndexOf(Enemigo));// muestra la posicion del enemigo en la lista
+
+            }
+        }
+        void PosicionEnLista()
+        {
+            Debug.Log(ListaEnemigos.IndexOf(gameObject));
+        }       // muestra la posicion del gameobject en la lista
+        void ComprobarObjetivo() { }//compueba que esta vivo, y mas cosas como...si es enemigo o no...y reemplazar tag, o de que tipo es...etc
+        void ComprobarLineaDeteccion()
+        {
+            //lo he descomentado del awake para meterlo aqui, activar el otro tb
+
+            RaycastHit RayCheckObjetivo;
+            if (Physics.Raycast(Torreta.position, Torreta.TransformDirection(Vector3.forward), out RayCheckObjetivo, AlcanceSensor))
+            {
+                if (RayCheckObjetivo.transform.name == ObjetivoActual.name)// si se llama igual que el ultimo objetivo
+                {           //Debug.DrawRay(Bocacha.position, Bocacha.TransformDirection(Vector3.forward), Color.red, AlcanceDeteccionArma);
+                            // UltimoObjetivoTocado.name = RayCheckObjetivo.transform.name;
+                            // ArmaPrincipal.LaserFlashOn();
+                            // ArmaPrincipal.DISPARA();
+                            //DISPARA();
+                }
+                else { Debug.Log("HAY ALGO EN MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO NO PUEDO DISPARARRRRRRRRRR O NO TE VEOOO Y NO TE METO EN LA LISTAAAA Y SI TE VEO MUY CERCA ME DAS UN SUSTOOO"); }
+            }
+        }
+        #endregion
+    }
+    void VozLeerEstadoAlerta() { }
+    void VozLeerNivelRiesgo() { }
+    void VozLeerDistandiaObjetivo() { }
+}
+
+#endregion
+  /*^PRUEBAS Y OTROS METODOS DISPONIBLES
+ * 
+ * ObjetivoActual = ListaEnemigos.FindIndex(0,ListaEnemigos.Count);
+
+//ListaEnemigos.FindLast
+  // ObjetivoActual = ListaEnemigos.LastOrDefault();
+// ObjetivoActual = ListaEnemigos.LastIndexOf(gameObject item,int index,int count);
+//ListaEnemigos.IndexOf(Enemigo);
+    //Nova---------ObjetivoActual = ListaEnemigos.FindLast(Enemigo);
+
+
+//___________________________________LISTA operaciones posibles_______________________________________________________________________
+
+//ListaEnemigos.Clear();
+//ListaEnemigos.Reverse();       //da la vuelta a la lista
+//ListaEnemigos.ToArray();       //La pasa a un array
+//ListaEnemigos.Contains(x);    //devuelve true si contiene el elemento
+//ListaEnemigos.GetRange(int indice, int numElementos)
+//como "recortar la lista" devuelve lista del mismo tipo con el rango que especificas(empezando a contar desde indice y cogiendo un numero de elementos)
+
+//ListaEnemigos.RemoveAll.....
+// ListaEnemigos.Find..........
+
+//ListaEnemigos.foreach (var item in collection) {  }
+
+
+
+}
+/* void BuscarEnLista()
+{
+if (ListaEnemigos.Contains(gameObject.name??????)) { }
+}*/
+
+
+
+//______________________________________________POR MEJORAR___dilemas___________________________________________
+
+//cambiar objetivoActual de transform a un Gameobject para poder aceder a su nombre y a su script vida....etc
+
+//Que reciba objetos para poder buscar en esllos el script de entidad y ver el estado de la vida, para hacer un if, y si es enemigo pero esta muerto que no le ataque ni le mire mas.
+// Se queda siguiendo el ultimo enemigo aunque salga, mirar como hacer null sin que retorne error.
+//y si le digo que el objetivo es siempre el primero que detecta mientras no muera (el primero que tiene en la lista)?
+//Y si no quiero que detecte objetivos? dehabilito el sensor-OBJ?
+
+//activar icono enemigos o icono de señal generica (demasiado lejos para saaber que es...)
+
+//por que no se actualiza el tamaño de la esfera del sensor?
